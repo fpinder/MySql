@@ -61,7 +61,6 @@ function afterConnection() {
                     // console.log("Item: " + res[i].item_id + " | " + " product: " + res[i].product_name + " | " + "Price: " + "| " + res[i].price);
                     // connection.end();
                 });
-
     }
 
     afterConnection();
