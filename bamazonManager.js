@@ -72,7 +72,7 @@ function products() {
 
         var table = new Table({
             head: ["Product Id", "Prod. Description", "Cost", "Quantity"],
-            colWidths: [12, 18, 8, 10],
+            colWidths: [12, 22, 8, 10],
             colAligns: ["center", "left", "right", "center"],
             style: {
                 head: ["green"],
