@@ -90,7 +90,7 @@ This app uses JavaScript, Node.js and 5 NPM packages: MySql, Inquirer, Cli-table
                     console.log(chalk.blueBright.bold("Good Bye"));
                     connection.end();
                     break;
-                    ```
+```
 
 #
 Lincense by <a href="https://creativecommons.org/licenses/by/3.0/" rel="nofollow">CC-BY</a>
