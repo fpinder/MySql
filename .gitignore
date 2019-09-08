@@ -1,0 +1,9 @@
+#Tell git not to track these files, and thus they won't be committed to Github
+node_modules
+.DS_Store
+.env
+input.input
+npm installed.txt
+
+# Dependency directories
+node_modules/

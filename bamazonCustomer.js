@@ -5,7 +5,7 @@ const chalk = require('chalk');
 require("dotenv").config();
 
 // Run the following for the new method to connect my sql in workbeach
-// ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'wdp260';
+// ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 // flush privileges;
 var connection = mysql.createConnection({
     host: process.env.HOST,
@@ -58,22 +58,20 @@ function shop() {
             console.log(chalk.white.bgRed.bold("\nPlease try again and ensure you selected an item number from the 'Product Id' list"))
             afterConnection();
         } else {
-            var query = "SELECT item_id, stock_quantity, price FROM Products WHERE item_id = " + answer.Item;
+            var query = "SELECT item_id, product_name, stock_quantity, price FROM Products WHERE item_id = " + answer.Item;
             connection.query(query, function (err, results) {
-                //console.log(results)
                 if (err) throw err;
                 if (results.length === 0) {
                     console.log(chalk.white.blueBright.bold("The product doesn't exist. Please try again and select an item from the list"))
-                    //connection.end();
                     shop();
                 } else {
                     inquirer.prompt({
                         name: "Qty",
                         type: "input",
-                        message: "\nHow many units of the product you selected would you like to purchase?"
+                        message: "\nHow many " + results[0].product_name + "'s would you like to purchase?"
                     }).then(function (answer) {
                         if (answer.Qty.length == 0 || answer.Qty > results[0].stock_quantity) {
-                            console.log(chalk.white.bgRed.bold("\n'Insufficient quantity!'\n") + chalk.white.blueBright.bold("\nWe are sorry we only have " + results[0].stock_quantity + " items. Therefore, we can not fill your request for " + answer.Qty + " Unit"))
+                            console.log(chalk.white.bgRed.bold("\n'Insufficient quantity!'") + chalk.white.blueBright.bold("\nWe are sorry we only have " + results[0].stock_quantity + " " + results[0].product_name + ". Therefore, we can not fill your request for " + answer.Qty + " " + results[0].product_name))
                             connection.end();
                         } else {
 
@@ -83,7 +81,7 @@ function shop() {
                             var onHandQty = results[0].stock_quantity
                             var transaction = onHandQty - qtyRequested
                             updateProduct(itemNumber, transaction);
-                            console.log(chalk.white.bgRed.bold("\nTransaction Completed...\n") + chalk.bold.magenta("Quantity Requested: " + answer.Qty + "\n" + "Unit Price: $" + results[0].price + "\nTaxes: $" + ((answer.Qty * results[0].price) * .09).toFixed(2) + "\nTotal" + " = $" + ((answer.Qty * results[0].price) * 1.09).toFixed(2)));
+                            console.log(chalk.white.bgRed.bold("\nTransaction Completed...\n") + chalk.bold.magenta("Quantity Requested: " + answer.Qty + "\n" + results[0].product_name + " Unit Price: $" + results[0].price + "\nTaxes: $" + ((answer.Qty * results[0].price) * .09).toFixed(2) + "\nTotal" + " = $" + ((answer.Qty * results[0].price) * 1.09).toFixed(2)));
                             connection.end();
                         }
 
